@@ -159,7 +159,6 @@ export const login = async (req, res) => {
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     otps.set(email, { otp, expires: Date.now() + 5 * 60 * 1000 });
-    await sendOtpEmail(email, otp);
 
     res.status(200).json({
       message: "Login successful. OTP sent to email.",
@@ -167,6 +166,9 @@ export const login = async (req, res) => {
       email,
       accessToken,
     });
+    sendOtpEmail(email, otp).catch((err) => {
+      console.error("failed to send OTP email: ", err);
+    })
   } catch (error) {
     console.error("Login error:", error);
     res.status(400).json({ message: error.message });
