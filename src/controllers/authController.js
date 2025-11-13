@@ -166,9 +166,6 @@ export const login = async (req, res) => {
       email,
       accessToken,
     });
-    sendOtpEmail(email, otp).catch((err) => {
-      console.error("failed to send OTP email: ", err);
-    })
   } catch (error) {
     console.error("Login error:", error);
     res.status(400).json({ message: error.message });
